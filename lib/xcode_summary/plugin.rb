@@ -136,8 +136,9 @@ module Danger
     def format_summary(xcode_summary)
 
       ## TODO: --
-      warn(@project_root)
-      warn(Dir.pwd)
+      warn("project_root=#{@project_root}")
+      warn("Dir.pwd=#{Dir.pwd}")
+      warn("DRONE_WORKSPACE=#{ENV['DRONE_WORKSPACE']}")
       ## TODO: --
 
       xcode_summary.actions_invocation_record.actions.each do |action|
