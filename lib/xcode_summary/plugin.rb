@@ -123,8 +123,7 @@ module Danger
         xcode_summary.actions_invocation_record.actions.each do |action|
           warning_count += warnings(action).count
           warnings(action).each do |result|
-              warn("ERIC:#{result.message}", sticky: false)
-            end
+            warn("ERIC:#{result.message}", sticky: false)
           end
           error_count += errors(action).count
         end
