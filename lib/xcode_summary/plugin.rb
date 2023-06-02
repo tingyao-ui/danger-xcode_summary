@@ -122,6 +122,10 @@ module Danger
         error_count = 0
         xcode_summary.actions_invocation_record.actions.each do |action|
           warning_count += warnings(action).count
+          warnings(action).each do |result|
+              warn("ERIC:#{result.message}", sticky: false)
+            end
+          end
           error_count += errors(action).count
         end
         result = { warnings: warning_count, errors: error_count }
@@ -134,13 +138,6 @@ module Danger
     private
 
     def format_summary(xcode_summary)
-
-      ## TODO: --
-      warn("project_root=#{@project_root}")
-      warn("Dir.pwd=#{Dir.pwd}")
-      warn("DRONE_WORKSPACE=#{ENV['DRONE_WORKSPACE']}")
-      ## TODO: --
-
       xcode_summary.actions_invocation_record.actions.each do |action|
         warnings(action).each do |result|
           if inline_mode && result.location
@@ -201,6 +198,11 @@ module Danger
 
       results = (errors + test_failures).uniq.reject { |result| result.message.nil? }
       results.delete_if(&ignored_results)
+    end
+
+    def coverages(action)
+      ref = action.action_result.coverage.report_ref
+      ## TODO: xcrun xccov view --report --json fastlane/test_output/ConnectTests.xcresult > xccov.json
     end
 
     def parse_location(document_location)
