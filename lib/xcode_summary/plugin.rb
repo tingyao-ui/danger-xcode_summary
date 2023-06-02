@@ -134,6 +134,12 @@ module Danger
     private
 
     def format_summary(xcode_summary)
+
+      ## TODO: --
+      warn(@project_root)
+      warn(Dir.pwd)
+      ## TODO: --
+
       xcode_summary.actions_invocation_record.actions.each do |action|
         warnings(action).each do |result|
           if inline_mode && result.location
